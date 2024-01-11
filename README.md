@@ -7,8 +7,8 @@ This repository contains the code and models for a project that identifies skin 
 - Data Pre Processing: Notebooks for image preprocessing and data preparation.
 - Training: Notebooks for training and evaluating machine learning models.
 - api:
--     requirements.txt: List of required Python libraries.
--     main.py: Main script to run the API.
+       requirements.txt: List of required Python libraries.
+       main.py: Main script to run the API.
 - saved_models: Trained machine learning models.
 
 ## Running the API

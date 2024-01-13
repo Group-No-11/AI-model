@@ -4,11 +4,13 @@ import uvicorn
 from io import BytesIO
 from PIL import Image
 import tensorflow as tf
+import cv2
 
+# from tensorflow import keras
 
 app = FastAPI()
 
-MODEL = tf.keras.models.load_model("../saved_model/sddsm_f.keras")
+MODEL = tf.keras.models.load_model("../saved_model/vgg16.keras")  # enter the model path
 CLASS_NAMES = ["Eczema", "Psoriasis"]
 
 
@@ -27,7 +29,17 @@ async def predict(
         file: UploadFile = File(...)
 ):
     image = read_file_as_image(await file.read())
-    img_batch = np.expand_dims(image, 0)
+
+    # Apply Gaussian blur
+    gaussian_blur = cv2.GaussianBlur(image, (7, 7), 2)
+
+    # Perform image sharpening
+    sharpened_img = cv2.addWeighted(image, 1.5, gaussian_blur, -0.5, 0)
+
+    # resize image
+    resized_image = cv2.resize(sharpened_img, (224, 224))
+
+    img_batch = np.expand_dims(resized_image, 0)
     predictions = MODEL.predict(img_batch)
     predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
     confidence = np.max(predictions[0])

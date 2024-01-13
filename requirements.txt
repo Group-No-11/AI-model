@@ -1,4 +1,4 @@
-tensorflow==2.11.0
+tensorflow==2.15.0
 fastapi
 uvicorn
 python-multipart
@@ -6,3 +6,4 @@ pillow
 tensorflow-serving-api==2.5.0
 matplotlib
 numpy
+opencv-python
